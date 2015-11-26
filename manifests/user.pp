@@ -35,7 +35,7 @@ define liquidprompt::user(
   $liquidprompt_dir = "${real_home}/.liquidprompt"
   $liquidprompt_config_dir = "${real_home}/.config"
   $liquidprompt_rc = "${liquidprompt_config_dir}/liquidpromptrc"
-  $liquidprompt_file = "${liquidprompt_dir}/liquidprompt"
+  $liquidprompt_file = "${$shell ? {'bash' => "$HOME", default => "/home/${user}"}}/liquidprompt"
 
   if ! defined(File[$liquidprompt_config_dir]){
     file{$liquidprompt_config_dir:
@@ -63,7 +63,7 @@ define liquidprompt::user(
   file_line{"enable_liquidprompt_in_${shell}rc_for_${user}":
     ensure  => present,
     line    => ". ${liquidprompt_file}",
-    path    => "${$shell ? { 'bash' => "$HOME", default => "/home/${user}" }}/.${shell}rc",
+    path    => "${real_home}/.${shell}rc",
     require => [File[$liquidprompt_rc],Vcsrepo[$liquidprompt_dir]]
   }
 
