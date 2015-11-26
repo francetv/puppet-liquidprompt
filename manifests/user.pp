@@ -28,7 +28,7 @@ define liquidprompt::user(
   }
 
   $real_home = $home ? {
-    false   => "/home/${user}",
+    false   => $shell ? { 'bash' => "$HOME", default => "/home/${user}" },
     default => $home
   }
 
