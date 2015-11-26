@@ -28,7 +28,7 @@ define liquidprompt::user(
   }
 
   $real_home = $home ? {
-    false   => $shell ? { 'bash' => "$HOME", default => "/home/${user}" },
+    false   => "/home/${user}",
     default => $home
   }
 
@@ -63,7 +63,7 @@ define liquidprompt::user(
   file_line{"enable_liquidprompt_in_${shell}rc_for_${user}":
     ensure  => present,
     line    => ". ${liquidprompt_file}",
-    path    => "${real_home}/.${shell}rc",
+    path    => "${$shell ? { 'bash' => "$HOME", default => "/home/${user}" }}/.${shell}rc",
     require => [File[$liquidprompt_rc],Vcsrepo[$liquidprompt_dir]]
   }
 
