@@ -32,10 +32,13 @@ define liquidprompt::user(
     default => $home
   }
 
-  $liquidprompt_dir = "${real_home}/.liquidprompt"
+  $liquidprompt_dir        = "${real_home}/.liquidprompt"
   $liquidprompt_config_dir = "${real_home}/.config"
-  $liquidprompt_rc = "${liquidprompt_config_dir}/liquidpromptrc"
-  $liquidprompt_file = "${$shell ? {'bash' => '$HOME', default => "/home/${user}"}}/.liquidprompt/liquidprompt"
+  $liquidprompt_rc         = "${liquidprompt_config_dir}/liquidpromptrc"
+  $liquidprompt_file       = $shell ? {
+    'bash' => "$\HOME/.liquidprompt/liquidprompt",
+    defaut => "${liquidprompt_dir}/liquidprompt"
+  }
 
   if ! defined(File[$liquidprompt_config_dir]){
     file{$liquidprompt_config_dir:
