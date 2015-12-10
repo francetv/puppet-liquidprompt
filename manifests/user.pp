@@ -36,7 +36,7 @@ define liquidprompt::user(
   $liquidprompt_config_dir = "${real_home}/.config"
   $liquidprompt_rc         = "${liquidprompt_config_dir}/liquidpromptrc"
   $liquidprompt_file       = $shell ? {
-    'bash' => "$\HOME/.liquidprompt/liquidprompt",
+    'bash' => "\$HOME/.liquidprompt/liquidprompt",
     defaut => "${liquidprompt_dir}/liquidprompt"
   }
 
